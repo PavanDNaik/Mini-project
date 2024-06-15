@@ -40,7 +40,7 @@ function CompilerPage() {
         </div>
         <ul className='space-y-3 font-medium text-center'>
           <li
-            className={` border-b-2 hover:bg-gray-800 hover:border rounded-md   transition p-4 duration-300 ease-in-out`}>
+            className={` border-b-2 hover:bg-gray-800 hover:border-t-2 rounded-md   transition p-4 duration-300 ease-in-out`}>
             <Link
               to={"/"}
               className={`cursor-pointer  font-mono px-2 py-1 text-center  rounded-lg ${
@@ -54,7 +54,7 @@ function CompilerPage() {
           </li>
 
           <li
-            className={` border-b-2 hover:bg-gray-800 hover:border rounded-md   transition p-4 duration-300 ease-in-out`}>
+            className={` border-b-2 hover:bg-gray-800 hover:border-t-2 rounded-md   transition p-4 duration-300 ease-in-out`}>
             <Link
               to={"/ContactUs"}
               className={`cursor-pointer  font-mono px-2 py-1 text-center  rounded-lg ${
@@ -68,7 +68,7 @@ function CompilerPage() {
           </li>
 
           <li
-            className={` border-b-2 hover:bg-gray-800 hover:border rounded-md   transition p-4 duration-300 ease-in-out`}>
+            className={` border-b-2 hover:bg-gray-800 hover:border-t-2 rounded-md   transition p-4 duration-300 ease-in-out`}>
             <Link
               to={"/history"}
               className={`cursor-pointer  font-mono px-2 py-1 text-center  rounded-lg ${

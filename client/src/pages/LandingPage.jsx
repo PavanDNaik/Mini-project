@@ -1,5 +1,5 @@
 import React from "react";
-import img1 from "./img1.svg";
+import img1 from "../assets/img1.svg";
 import { Link, NavLink } from "react-router-dom";
 import TextSummarizer from "./TextSummarizer";
 
@@ -99,8 +99,8 @@ function LandingPage() {
                 <div className='mt-6 text-xl font-bold font-mono text-white antialiased'>
                   Instantly condense lengthy documents into concise summaries.
                 </div>
-                <button className='mt-6 px-8 py-4 rounded-full font-mono font-semibold tracking-wide bg-gradient-to-b from-green-200 to-green-500 text-white outline-none focus:outline-none hover:shadow-lg hover:from-green-700 transition duration-200 ease-in-out'>
-                  Get Started
+                <button className='mt-9 px-8 py-4 rounded-full font-mono font-semibold tracking-wide bg-gradient-to-b from-green-200 to-green-500 text-white outline-none focus:outline-none hover:shadow-lg hover:from-green-700 transition duration-200 ease-in-out'>
+                  <Link to='/textSum'>Get Started</Link>
                 </button>
               </div>
               <div className='lg:w-1/2 mt-12 lg:mt-0 lg:ml-16'>
