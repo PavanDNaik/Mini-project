@@ -1,22 +1,6 @@
 import React from "react";
 
 function TextSummarizer() {
-  const [inputText, setInputText] = useState("");
-  const [summary, setSummary] = useState("");
-
-  // Function to handle text input change
-  const handleInputChange = (event) => {
-    setInputText(event.target.value);
-  };
-
-  // Function to handle form submission (you can integrate your AI model here)
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-
-    // Placeholder for AI model integration (replace with your actual logic)
-    // For demonstration, let's just set the summary as the input text
-    setSummary(inputText);
-  };
   return (
     <div className='min-h-screen min-w-full bg-gradient-to-r from-slate-900 to-emerald-400 flex flex-col justify-center p-10'>
       <div className='w-full max-w-full lg:max-w-6xl xl:max-w-screen-2xl mx-auto'>
@@ -28,7 +12,7 @@ function TextSummarizer() {
             </h2>
             <div className='bg-white rounded-lg p-4 h-full overflow-y-auto'>
               {/* Display summarized text here */}
-              <p className='text-gray-800'>{summary}</p>
+              <p className='text-gray-800'>summary</p>
             </div>
           </div>
 
@@ -39,8 +23,7 @@ function TextSummarizer() {
               <textarea
                 className='w-full h-64 bg-white rounded-lg p-4 resize-none focus:outline-none focus:ring-2 focus:ring-emerald-400 text-gray-800'
                 placeholder='Paste or type your text here...'
-                value={inputText}
-                onChange={handleInputChange}></textarea>
+                value='inputText'></textarea>
               <button
                 type='submit'
                 className='mt-4 px-8 py-3 rounded-full font-medium bg-gradient-to-b from-green-200 to-green-500 text-white outline-none focus:outline-none hover:shadow-lg hover:from-green-700 transition duration-200 ease-in-out'>
