@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 function CompilerPage() {
   const [input, setInput] = useState("");
@@ -26,45 +27,60 @@ function CompilerPage() {
   return (
     <div className='flex min-h-screen bg-black text-white font-mono'>
       <aside
-        className={`bg-black text-white p-4 w-64 flex flex-col justify-between ${
+        className={`bg-black border-r-2 border-white text-white p-4 w-64 flex flex-col justify-between ${
           sidebarOpen ? "block" : "hidden sm:block"
         }`}>
-        <div>
-          {/* Sidebar Header */}
-          <div className='flex items-center mb-8'>
-            <div className='flex space-x-2 text-red-500'>
-              <div className='w-3 h-3 rounded-full bg-red-500'></div>
-              <div className='w-3 h-3 rounded-full bg-yellow-500'></div>
-              <div className='w-3 h-3 rounded-full bg-green-500'></div>
-            </div>
-            <p className='text-sm ml-2'>Text-Summarizer</p>
+        <div className='flex items-center mb-8'>
+          <div className='flex space-x-2 text-red-500'>
+            <div className='w-3 h-3 rounded-full bg-red-500'></div>
+            <div className='w-3 h-3 rounded-full bg-yellow-500'></div>
+            <div className='w-3 h-3 rounded-full bg-green-500'></div>
           </div>
-
-          <div className='space-y-2'>
-            <div
-              className={`cursor-pointer font-mono px-2 py-4 text-center rounded-lg hover:bg-gray-800 ${
-                selectedOption === "home" ? "bg-gray-800" : ""
+          <p className='text-sm ml-2'>Text-Summarizer</p>
+        </div>
+        <ul className='space-y-3 font-medium text-center'>
+          <li
+            className={` border-b-2 hover:bg-gray-800 hover:border rounded-md   transition p-4 duration-300 ease-in-out`}>
+            <Link
+              to={"/"}
+              className={`cursor-pointer  font-mono px-2 py-1 text-center  rounded-lg ${
+                selectedOption === "/home" ? "bg-gray-800" : ""
               }`}
               onClick={() => handleOptionClick("/home")}>
-              Home
-            </div>
+              <span className=' text-xl font-mono  font-medium tracking-tight  dark:text-gray-100'>
+                Home
+              </span>
+            </Link>
+          </li>
 
-            <div
-              className={`cursor-pointer px-2 py-4 text-center rounded-lg  hover:bg-gray-800 ${
-                selectedOption === "contact" ? "bg-gray-800" : ""
+          <li
+            className={` border-b-2 hover:bg-gray-800 hover:border rounded-md   transition p-4 duration-300 ease-in-out`}>
+            <Link
+              to={"/ContactUs"}
+              className={`cursor-pointer  font-mono px-2 py-1 text-center  rounded-lg ${
+                selectedOption === "/contact" ? "bg-gray-800" : ""
               }`}
-              onClick={() => handleOptionClick("contact")}>
-              ContactUs
-            </div>
-            <div
-              className={`cursor-pointer px-2 py-4 text-center rounded-lg hover:bg-gray-800 ${
-                selectedOption === "history" ? "bg-gray-800" : ""
+              onClick={() => handleOptionClick("/contact")}>
+              <span className=' text-xl font-mono  font-medium tracking-tight  dark:text-gray-100'>
+                Contact Us
+              </span>
+            </Link>
+          </li>
+
+          <li
+            className={` border-b-2 hover:bg-gray-800 hover:border rounded-md   transition p-4 duration-300 ease-in-out`}>
+            <Link
+              to={"/history"}
+              className={`cursor-pointer  font-mono px-2 py-1 text-center  rounded-lg ${
+                selectedOption === "/history" ? "bg-gray-800" : ""
               }`}
-              onClick={() => handleOptionClick("history")}>
-              History
-            </div>
-          </div>
-        </div>
+              onClick={() => handleOptionClick("/history")}>
+              <span className=' text-xl font-mono  font-medium tracking-tight  dark:text-gray-100'>
+                History
+              </span>
+            </Link>
+          </li>
+        </ul>
       </aside>
 
       <main className='flex-1 p-4 flex flex-col justify-center items-center w-full'>
@@ -98,7 +114,7 @@ function CompilerPage() {
         <div className='border-t border-white w-full my-4'></div>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-6xl  '>
-          <div className='bg-gray-800 p-4 rounded-lg shadow-lg shadow-green-300 mr-6'>
+          <div className='bg-gray-800 p-4 rounded-lg shadow-lg shadow-green-300 ml-6 mr-6 mt-3'>
             <div className='flex justify-between items-center mb-4'>
               <div className='flex space-x-2 text-green-400'>
                 <div className='w-3 h-3 rounded-full bg-red-500'></div>
@@ -119,7 +135,7 @@ function CompilerPage() {
             </button>
           </div>
 
-          <div className='bg-gray-800 p-4 rounded-lg shadow-lg shadow-green-300 ml-6'>
+          <div className='bg-gray-800 p-4 rounded-lg shadow-lg shadow-green-300 ml-6 mr-6 mt-3'>
             <div className='flex justify-between items-center mb-4'>
               <div className='flex space-x-2 text-green-400'>
                 <div className='w-3 h-3 rounded-full bg-red-500'></div>
