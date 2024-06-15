@@ -29,7 +29,7 @@ import torch
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-path="./model"
+path="./TextSum-Model/model"
 tokenizer = AutoTokenizer.from_pretrained(path)
 model = AutoModelForSeq2SeqLM.from_pretrained(path).to(device)
 
