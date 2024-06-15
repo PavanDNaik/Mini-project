@@ -1,5 +1,7 @@
 import React from "react";
 import img1 from "./img1.svg";
+import { Link } from "react-router-dom";
+import TextSummarizer from "./TextSummarizer";
 
 function LandingPage() {
   return (
