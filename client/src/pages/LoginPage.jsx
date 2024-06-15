@@ -14,7 +14,7 @@ function LoginPage() {
             </div>
             <Link
               to='/'
-              className='text-sm font-mono font-semibold text-gray-100 border-y-2'>
+              className='text-md font-mono hover:text-green-600  font-semibold text-gray-100 border-y-2'>
               Home
             </Link>
           </div>
@@ -57,7 +57,12 @@ function LoginPage() {
                 Login
               </button>
             </div>
-            Don't have an account? <a>Register now!</a>
+            <div className='text-center mt-4'>
+              <span className='text-gray-300'>Don't have an account? </span>
+              <Link to='/register' className='text-green-400 hover:underline'>
+                Register now!
+              </Link>
+            </div>
           </form>
 
           <div className='flex items-center my-4 space-x-4'>

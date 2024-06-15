@@ -14,7 +14,7 @@ function ContactUs() {
             </div>
             <Link
               to='/'
-              className='text-sm font-mono font-semibold text-gray-100 border-y-2 '>
+              className='text-md font-mono hover:text-green-600 font-semibold text-gray-100 border-y-2 '>
               Home
             </Link>
           </div>

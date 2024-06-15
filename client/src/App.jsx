@@ -5,6 +5,7 @@ import TextSummarizer from "./pages/TextSummarizer";
 import ContactUs from "./pages/ContactUs";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path='contactus' element={<ContactUs />} />
         <Route path='textSum' element={<TextSummarizer />} />
         <Route path='login' element={<LoginPage />} />
+        <Route path='register' element={<RegisterPage />} />
       </Routes>
     </BrowserRouter>
   );

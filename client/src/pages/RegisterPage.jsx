@@ -14,7 +14,7 @@ function RegisterPage() {
             </div>
             <Link
               to='/'
-              className='text-sm font-mono font-semibold text-gray-100 border-y-2'>
+              className='text-md hover:text-green-600  font-mono font-semibold text-gray-100 border-y-2'>
               Home
             </Link>
           </div>
@@ -71,6 +71,12 @@ function RegisterPage() {
                 className='py-3 px-5 font-mono text-sm font-bold text-center text-white rounded-lg bg-green-900 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300'>
                 Register
               </button>
+            </div>
+            <div className='text-center mt-4'>
+              <span className='text-gray-300'>Already have an account? </span>
+              <Link to='/login' className='text-green-400 hover:underline'>
+                Login now!
+              </Link>
             </div>
           </form>
 
