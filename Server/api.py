@@ -18,12 +18,12 @@ def loadModel():
     model = AutoModelForSeq2SeqLM.from_pretrained(path).to(device)
     return model
 
+model = loadModel()
 def getStream(input):
     try:
         streamer = TextIteratorStreamer(tokenizer=tokenizer,skip_prompt=True)
 
         input=tokenizer(input,max_length=1024,return_tensors="pt",truncation=True).to(device)
-        model = loadModel()
         generation_kwargs = dict(input, streamer=streamer, max_new_tokens=32,num_beams=1,max_length=1024)
         thread = Thread(target=model.generate, kwargs=generation_kwargs)
         thread.start()
@@ -36,11 +36,11 @@ def getStream(input):
 
     finally:
         torch.cuda.empty_cache()
-        del model
+        # del model
 
 @app.route('/result/', methods = ['POST'])
 
-def hello_world():
+def textSummerize():
     body = request.get_json()
     text = body["text"]
     return app.response_class(getStream(input=text), mimetype='text')
