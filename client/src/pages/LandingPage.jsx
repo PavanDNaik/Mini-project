@@ -2,6 +2,9 @@ import React from "react";
 import img1 from "../assets/img1.svg";
 import { Link, NavLink } from "react-router-dom";
 import TextSummarizer from "./TextSummarizer";
+import Testimonials from "../components/Testimonials"
+import Footer from "../components/Footer"
+
 
 function LandingPage() {
   return (
@@ -90,6 +93,8 @@ function LandingPage() {
           </div>
         </div>
       </div>
+      <Testimonials/>
+      <Footer/>
     </div>
   );
 }
