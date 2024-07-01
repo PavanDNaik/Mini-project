@@ -1,56 +1,49 @@
 from flask import Flask,request,jsonify
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-# from api import app
+import torch
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM ,TextIteratorStreamer
+from threading import Thread
+from flask_cors import CORS, cross_origin
 
+device = "cuda:0" if torch.cuda.is_available() else "cpu"
 
 path="./TextSum-Model/model"
 tokenizer = AutoTokenizer.from_pretrained(path)
-model = AutoModelForSeq2SeqLM.from_pretrained(path)
+
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
-@app.route('/result', methods = ['POST'])
+def loadModel():
+    model = AutoModelForSeq2SeqLM.from_pretrained(path).to(device)
+    return model
 
-def hello_world():
+model = loadModel()
+def getStream(input):
+    try:
+        streamer = TextIteratorStreamer(tokenizer=tokenizer,skip_prompt=True)
+
+        input=tokenizer(input,max_length=1024,return_tensors="pt",truncation=True).to(device)
+        generation_kwargs = dict(input, streamer=streamer, max_new_tokens=32,num_beams=1,max_length=1024)
+        thread = Thread(target=model.generate, kwargs=generation_kwargs)
+        thread.start()
+
+        for new_text in streamer:
+            yield new_text
+        
+    except RuntimeError as e:
+        print(e)
+
+    finally:
+        torch.cuda.empty_cache()
+        # del model
+
+@app.route('/result/', methods = ['POST'])
+
+def textSummerize():
     body = request.get_json()
-    text = body["input"]
-    input_size = body["size"]
-    input=tokenizer(text,return_tensors="pt",truncation=True)
-    output = model.generate(
-    input["input_ids"],
-    max_length=input_size,
-    min_length=input_size-20
-    )
-    return jsonify(tokenizer.decode(output[0], skip_special_tokens=True))
+    text = body["text"]
+    return app.response_class(getStream(input=text), mimetype='text')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
-
-# import torch
-
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-# path="./TextSum-Model/model"
-# tokenizer = AutoTokenizer.from_pretrained(path)
-# model = AutoModelForSeq2SeqLM.from_pretrained(path).to(device)
-
-# @app.route('/result', methods=['POST'])
-# def hello_world():
-#     body = request.get_json()
-#     text = body["input"]
-#     input_size = body["size"]
-    
-#     inputs = tokenizer(text, return_tensors="pt", truncation=True)
-#     inputs = {k: v.to(device) for k, v in inputs.items()}  # Move inputs to the same device as the model
-    
-#     with torch.no_grad():
-#         output = model.generate(
-#             inputs["input_ids"],
-#             max_length=input_size,
-#             min_length= 20
-#         )
-    
-#     return jsonify(tokenizer.decode(output[0], skip_special_tokens=True))
-
-# if __name__ == "__main__":
-#     app.run()

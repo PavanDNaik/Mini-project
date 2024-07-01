@@ -9,15 +9,44 @@ function CompilerPage() {
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
-
     setInput("");
     setOutput("");
-
     setSidebarOpen(false);
   };
 
-  const handleCompile = () => {
-    setOutput(input.toUpperCase());
+  const handleStream = async (reader) => {
+    const decoder = new TextDecoder();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        alert("completed");
+        break;
+      }
+      setOutput(
+        (output) =>
+          output + decoder.decode(value, { stream: true }).replace("</s>", "")
+      );
+    }
+  };
+  const handleCompile = async () => {
+    setOutput("");
+    try {
+      const modelResponse = await fetch("http://localhost:5000/result/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: input,
+        }),
+      });
+
+      const reader = modelResponse.body.getReader();
+
+      handleStream(reader);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const toggleSidebar = () => {
