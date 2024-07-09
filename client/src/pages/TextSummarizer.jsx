@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { Document, Page, pdfjs } from "react-pdf";
+import mammoth from "mammoth";
 
 function CompilerPage() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("home");
+
+  pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
   const handleOptionClick = (option) => {
     setSelectedOption(option);
@@ -47,6 +51,66 @@ function CompilerPage() {
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    if (file.type === "application/pdf") {
+      reader.onload = async (event) => {
+        const typedArray = new Uint8Array(event.target.result);
+        parsePdf(typedArray);
+      };
+
+      reader.readAsArrayBuffer(file);
+    } else if (
+      file.type ===
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ) {
+      reader.onload = async (event) => {
+        const arrayBuffer = event.target.result;
+        const text = await parseWord(arrayBuffer);
+        setInput(text);
+      };
+
+      reader.readAsArrayBuffer(file);
+    } else if (file.type === "text/plain") {
+      reader.onload = (event) => {
+        const text = event.target.result;
+        setInput(text);
+      };
+
+      reader.readAsText(file);
+    } else {
+      alert(
+        "Unsupported file type. Please upload PDF, Word, or plain text documents."
+      );
+    }
+  };
+
+  const parsePdf = async (typedArray) => {
+    try {
+      const pdf = await pdfjs.getDocument({ data: typedArray }).promise;
+      let text = "";
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+
+        const pageText = content.items.map((item) => item.str).join(" ");
+        text += pageText + " ";
+      }
+
+      setInput(text);
+    } catch (error) {
+      console.error("Error parsing PDF:", error);
+    }
+  };
+
+  const parseWord = async (arrayBuffer) => {
+    const result = await mammoth.extractRawText({ arrayBuffer });
+    return result.value;
   };
 
   const toggleSidebar = () => {
@@ -157,11 +221,32 @@ function CompilerPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder='Type your code here...'></textarea>
-            <button
-              onClick={handleCompile}
-              className='mt-4 py-2 px-4 bg-green-500 text-black rounded-lg hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300'>
-              Summarize
-            </button>
+            <div className='flex items-center space-x-5'>
+              <button
+                onClick={handleCompile}
+                className='mt-4 py-2 px-4 bg-green-500 text-black rounded-lg hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300'>
+                Summarize
+              </button>
+              <label className="cursor-pointer ml-4">
+                <svg
+                  className="w-6 h-6 text-green-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M21 11.5a5.5 5.5 0 00-9.9-3.9l-7.6 7.6a4 4 0 105.7 5.7l6.3-6.3a2.5 2.5 0 00-3.5-3.5l-4.9 4.9"/>
+                </svg>
+                <input
+                  type="file"
+                  className="hidden"
+                  onChange={handleFileUpload}
+                />
+              </label>
+            </div>
           </div>
 
           <div className='bg-gray-800 p-4 rounded-lg shadow-lg shadow-green-300 ml-6 mr-6 mt-3'>
