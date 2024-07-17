@@ -6,8 +6,7 @@ import ContactUs from "./pages/ContactUs";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
-import Footer from "./components/Footer";
-import Testimonials from "./components/Testimonials";
+
 
 function App() {
   return (
