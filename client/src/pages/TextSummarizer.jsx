@@ -20,28 +20,49 @@ function CompilerPage() {
 
   const handleStream = async (reader) => {
     const decoder = new TextDecoder();
+    let buffer = '';
+
     while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        alert("completed");
-        break;
-      }
-      setOutput(
-        (output) =>
-          output + decoder.decode(value, { stream: true }).replace("</s>", "")
-      );
+        const { done, value } = await reader.read();
+        if (done) {
+            alert("completed");
+            break;
+        }
+
+        // Append the decoded chunk to the buffer
+        buffer += decoder.decode(value, { stream: true });
+
+        // Try to parse the buffer as JSON
+        let boundary = buffer.indexOf("\n"); // Assuming each JSON object is newline-delimited
+        while (boundary !== -1) {
+            const jsonString = buffer.slice(0, boundary);
+            buffer = buffer.slice(boundary + 1);
+
+            try {
+                const jsonObject = JSON.parse(jsonString);
+                // Update the output with the response part of the JSON object
+                setOutput((output) => output + jsonObject.response);
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+
+            boundary = buffer.indexOf("\n");
+        }
     }
-  };
+};
+
   const handleCompile = async () => {
     setOutput("");
     try {
-      const modelResponse = await fetch("http://localhost:5000/result/", {
+      const modelResponse = await fetch("http://127.0.0.1:11434/api/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          text: input,
+          model:"llama3:8b",
+          prompt:"You are a highly skilled summarizer. Your task is to provide a concise and precise summary of the provided text, capturing the essential points and main ideas. The summary should be significantly shorter than the original text, ideally no more than one-third of its length. Strictly Do not include any introductory phrases  or explanations in the summary.Dont mention regarding the prompt \n"+input,
+          stream:true
         }),
       });
 

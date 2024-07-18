@@ -1,5 +1,4 @@
 import "./App.css";
-import FeatureSection from "./components/FeatureSection";
 import LandingPage from "./pages/LandingPage";
 import TextSummarizer from "./pages/TextSummarizer";
 import ContactUs from "./pages/ContactUs";
@@ -13,10 +12,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='contactus' element={<ContactUs />} />
-        <Route path='textSum' element={<TextSummarizer />} />
-        <Route path='login' element={<LoginPage />} />
-        <Route path='register' element={<RegisterPage />} />
+        <Route path='/contactus' element={<ContactUs />} />
+        <Route path='/textSum' element={<TextSummarizer />} />
+        <Route path='/login' element={<LoginPage />} />
+        <Route path='/register' element={<RegisterPage />} />
       </Routes>
     </BrowserRouter>
   );
