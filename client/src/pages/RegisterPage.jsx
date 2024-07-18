@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function RegisterPage() {
+  const [registrationData, setRegistrationData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleRegistrationChange = (e) => {
+    const { name, value } = e.target;
+    setRegistrationData((prevdata) => ({
+      ...prevdata,
+      [name]: value,
+    }));
+  };
+
+  const handleRegistrationSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/register",
+        registrationData
+      );
+      console.log(response.data);
+      alert("REGISTRATION SUCCESSFULL");
+    } catch (error) {
+      console.log(error);
+    }
+    setRegistrationData({
+      username: "",
+      password: "",
+    });
+  };
   return (
     <div className='flex justify-center items-center min-h-screen bg-black text-white font-mono'>
       <section className='bg-black text-white p-10 rounded-lg border-4 border-gray-100 max-w-lg w-full mt-7 shadow-neon mb-9'>
@@ -21,7 +52,7 @@ function RegisterPage() {
           <h2 className='mb-4 text-4xl tracking-tight font-extrabold text-center font-mono text-white'>
             Register
           </h2>
-          <form className='space-y-4'>
+          <form onSubmit={handleRegistrationSubmit} className='space-y-4'>
             <div>
               <label
                 htmlFor='username'
@@ -31,25 +62,15 @@ function RegisterPage() {
               <input
                 type='text'
                 id='username'
+                name='username'
+                value={registrationData.username}
+                onChange={handleRegistrationChange}
                 className='shadow-sm bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-green-400 focus:border-green-400 block w-full p-2.5'
                 placeholder='Username'
                 required
               />
             </div>
-            <div>
-              <label
-                htmlFor='email'
-                className='block mb-2 font-mono text-sm font-medium text-gray-300'>
-                Email
-              </label>
-              <input
-                type='email'
-                id='email'
-                className='shadow-sm bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-green-400 focus:border-green-400 block w-full p-2.5'
-                placeholder='name@example.com'
-                required
-              />
-            </div>
+           
             <div>
               <label
                 htmlFor='password'
@@ -59,6 +80,9 @@ function RegisterPage() {
               <input
                 type='password'
                 id='password'
+                name='password'  
+                value={registrationData.password}
+                onChange={handleRegistrationChange}
                 className='shadow-sm bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-green-400 focus:border-green-400 block w-full p-2.5'
                 placeholder='Enter your password'
                 required

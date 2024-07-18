@@ -1,7 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function LoginPage() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/login",
+        loginData
+      );
+      const { success, message } = response.data;
+      if (success) {
+        console.log("LOGINSUCCESSFUL");
+        alert("LOGINSUCCESSFUL");
+        setIsLoggedIn(true); 
+       
+      } else {
+        console.log(message);
+        alert("LOGINSUCCESSFUL");
+       
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Invalid Credentials");
+    }
+  };
+
+  const handleLoginChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData((prevdata) => ({
+      ...prevdata,
+      [name]: value,
+    }));
+  };
+  if (isLoggedIn) {
+    return <Link to="/" />;
+  }
+
   return (
     <div className='flex justify-center items-center min-h-screen bg-black text-white font-mono'>
       <section className='bg-black text-white p-10 rounded-lg border-4 border-gray-100 max-w-lg w-full mt-7 shadow-neon mb-9'>
@@ -21,18 +65,21 @@ function LoginPage() {
           <h2 className='mb-4 text-4xl tracking-tight font-extrabold text-center font-mono text-white'>
             Login
           </h2>
-          <form className='space-y-4 flex-col'>
+          <form onSubmit={handleLoginSubmit} className='space-y-4 flex-col '>
             <div>
               <label
-                htmlFor='email'
+                htmlFor='username'
                 className='block mb-2 font-mono text-sm font-medium text-gray-300'>
-                Email
+                UserName
               </label>
               <input
-                type='email'
-                id='email'
+                type='text'
+                id='username'
+                name="username"
+                value={loginData.username}
+                onChange={handleLoginChange}
                 className='shadow-sm bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-green-400 focus:border-green-400 block w-full p-2.5'
-                placeholder='name@example.com'
+                placeholder='Username'
                 required
               />
             </div>
@@ -45,6 +92,9 @@ function LoginPage() {
               <input
                 type='password'
                 id='password'
+                name="password"
+                value={loginData.password}
+                onChange={handleLoginChange}
                 className='shadow-sm bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-green-400 focus:border-green-400 block w-full p-2.5'
                 placeholder='Enter your password'
                 required
