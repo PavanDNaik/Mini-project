@@ -19,12 +19,13 @@ def loadModel():
     return model
 
 model = loadModel()
+
 def getStream(input):
     try:
         streamer = TextIteratorStreamer(tokenizer=tokenizer,skip_prompt=True)
 
         input=tokenizer(input,max_length=1024,return_tensors="pt",truncation=True).to(device)
-        generation_kwargs = dict(input, streamer=streamer, max_new_tokens=32,num_beams=1,max_length=1024)
+        generation_kwargs = dict(input, streamer=streamer, max_new_tokens=32,num_beams=1,max_length=2048)
         thread = Thread(target=model.generate, kwargs=generation_kwargs)
         thread.start()
 
