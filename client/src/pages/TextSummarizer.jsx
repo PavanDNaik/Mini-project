@@ -191,14 +191,14 @@ function CompilerPage() {
             className={` border-b-2 hover:bg-gray-800 hover:border-t-2 rounded-md   transition p-4 duration-300 ease-in-out`}
           >
             <Link
-              to={"/history"}
+              to={"/reportpage"}
               className={`cursor-pointer  font-mono px-2 py-1 text-center  rounded-lg ${
                 selectedOption === "/history" ? "bg-gray-800" : ""
               }`}
-              onClick={() => handleOptionClick("/history")}
+              onClick={() => handleOptionClick("/reportpage")}
             >
               <span className=" text-xl font-mono  font-medium tracking-tight  dark:text-gray-100">
-                History
+                Report Summarizer
               </span>
             </Link>
           </li>

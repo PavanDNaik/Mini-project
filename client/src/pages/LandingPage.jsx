@@ -93,8 +93,8 @@ function LandingPage() {
           </div>
         </div>
       </div>
-      <Testimonials/>
-      <Footer/>
+      {/* <Testimonials/>
+      <Footer/> */}
     </div>
   );
 }
