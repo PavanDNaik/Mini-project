@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function LoginPage() {
@@ -8,7 +8,7 @@ function LoginPage() {
     username: "",
     password: "",
   });
-
+  const navigate = useNavigate();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -21,13 +21,12 @@ function LoginPage() {
       const { success, message } = response.data;
       if (success) {
         console.log("LOGINSUCCESSFUL");
-        alert("LOGINSUCCESSFUL");
-        setIsLoggedIn(true); 
-       
+        // alert("LOGINSUCCESSFUL");
+        setIsLoggedIn(true);
+        navigate("/textsum");
       } else {
         console.log(message);
         alert("LOGINSUCCESSFUL");
-       
       }
     } catch (error) {
       console.log(error);
@@ -43,7 +42,7 @@ function LoginPage() {
     }));
   };
   if (isLoggedIn) {
-    return <Link to="/" />;
+    return <Link to='/' />;
   }
 
   return (
@@ -75,7 +74,7 @@ function LoginPage() {
               <input
                 type='text'
                 id='username'
-                name="username"
+                name='username'
                 value={loginData.username}
                 onChange={handleLoginChange}
                 className='shadow-sm bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-green-400 focus:border-green-400 block w-full p-2.5'
@@ -92,7 +91,7 @@ function LoginPage() {
               <input
                 type='password'
                 id='password'
-                name="password"
+                name='password'
                 value={loginData.password}
                 onChange={handleLoginChange}
                 className='shadow-sm bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-green-400 focus:border-green-400 block w-full p-2.5'
